@@ -14,15 +14,18 @@
         <b-datepicker v-model="initial.date" :locale="locale" editable>
         </b-datepicker>
       </b-field>
+
+      <!-- open my code -->
+      <b-field class="" label="通常転送日">
+        <b-datepicker v-model="initial.date2" :locale="locale" editable required>
+        </b-datepicker>
+      </b-field>
+      <!-- close my code -->
+
       <div class="custom-radio">
         <b-field label="拠点">
-          <b-radio-button
-            v-for="(store, index) in ContractStores"
-            v-show="store.id != 5"
-            :key="index"
-            v-model="initial.ContractStore"
-            :native-value="store.id"
-          >
+          <b-radio-button v-for="(store, index) in ContractStores" v-show="store.id != 9" :key="index"
+            v-model="initial.ContractStore" :native-value="store.id">
             <span>{{ store.name }}</span>
           </b-radio-button>
         </b-field>
@@ -30,15 +33,9 @@
     </div>
     <div class="footer">
       <div class="buttons">
-        <b-button
-          :disabled="!initial.ContractStore"
-          @click="onSubmit"
-          :class="
-            initial.date && initial.ContractStore ? 'btn-orange' : 'btn-gray'
-          "
-          expanded
-          >次へ</b-button
-        >
+        <b-button :disabled="!initial.ContractStore" @click="onSubmit" :class="
+          initial.date && initial.ContractStore && initial.date2 ? 'btn-orange' : 'btn-gray'
+        " expanded>次へ</b-button>
       </div>
     </div>
   </div>
@@ -56,6 +53,7 @@ export default {
       initial: {
         date: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
         ContractStore: "",
+        date2:null,
       },
     };
   },
@@ -64,6 +62,11 @@ export default {
     this.ContractStores = this.$store.state.global.ContractStores;
   },
   methods: {
+
+    showDate() {
+      console.log("check");
+      //console.log(this.initial.date, this.initial.date2);
+    },
     // after selecting contract store submit for go home page
     onSubmit() {
       if (this.initial.date && this.initial.ContractStore) {
@@ -107,6 +110,7 @@ export default {
   text-align: center;
   border-bottom: 1px solid #cbcfd6;
 }
+
 .logo img {
   width: 201px;
 }
@@ -124,6 +128,7 @@ export default {
   color: #121723;
   margin: 0 !important;
 }
+
 .buttons {
   padding: 0px;
 }

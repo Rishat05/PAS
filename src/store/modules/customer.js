@@ -20,11 +20,11 @@ const state = {
     }
 }
 
-const mutations = {    
+const mutations = {
     SET_TYPE: (state, type) => {
         state.type = type
     },
-    
+
     SET_OCR_SEARCHED_TEXT: (state, ocrSearchedText) => {
         state.ocrSearchedText = ocrSearchedText
     },
@@ -114,7 +114,7 @@ const actions = {
         })
     },
     // get customers by open search
-    getCustomersByOpenSearch({ commit, state}){
+    getCustomersByOpenSearch({ commit, state }) {
         return new Promise((resolve, reject) => {
             getCustomersByOpenSearch(state.openSearchQuery).then(response => {
                 commit('SET_OCR_SEARCHED_TEXT', state.openSearchQuery.search)
@@ -126,10 +126,11 @@ const actions = {
         })
     },
     // get customer balance and previous mail histories latest 3
-    getCustomerData({ commit, state}, data){
+    getCustomerData({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             getCustomerData(data).then(response => {
                 commit('SET_MAIL_HISTORIES', response.history)
+                console.log(response.history);
                 resolve(response)
             }).catch(error => {
                 reject(error)
@@ -137,7 +138,7 @@ const actions = {
         })
     },
     // finial submition for registering new document
-    registerNewDocument({ commit, state}, data){
+    registerNewDocument({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             registerNewDocument(data).then(response => {
                 resolve(response)
@@ -147,28 +148,28 @@ const actions = {
         })
     },
     // set ocr response elements
-    setOCRResponseElements({ commit, state}, data){
+    setOCRResponseElements({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             commit('SET_OCR_RESPONSE_ELEMENTS', data)
             resolve(data)
         })
     },
     // set ocr response selected element
-    setOCRResponseSelectedElements({ commit, state}, data){
+    setOCRResponseSelectedElements({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             commit('SET_OCR_RESPONSE_SELECTED_ELEMENT', data)
             resolve(data)
         })
     },
     // set ocr original response selected element
-    setOCROriginalResponseSelectedElements({ commit, state}, data){
+    setOCROriginalResponseSelectedElements({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             commit('SET_OCR_ORIGINAL_RESPONSE_SELECTED_ELEMENT', data)
             resolve(data)
         })
     },
     // get ocr data by schedule
-    getOCRDataBySchedule({ commit, state}, data){
+    getOCRDataBySchedule({ commit, state }, data) {
         state.ocrResponseElements = []
         state.ocrResponseSelectedElements = []
         state.ocrOriginalResponse = []
@@ -185,7 +186,7 @@ const actions = {
     },
 
     // refresh customer store
-    refreshCustomerStore({ commit, state}){
+    refreshCustomerStore({ commit, state }) {
         return new Promise((resolve, reject) => {
             state.ocrSearchResults = []
             state.ocrResponseElements = []
@@ -201,24 +202,24 @@ const actions = {
     },
 
     // get top five customers
-    setTopFiveCustomers({ commit, state}, data){
+    setTopFiveCustomers({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             return new Promise(resolve => {
                 commit('SET_TOP_FIVE_CUSTOMERS', data)
                 resolve('success')
             })
         })
-        
+
     },
     // get ocr original response
-    setOCROriginalResponse({ commit, state}, data){
+    setOCROriginalResponse({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             commit('SET_OCR_ORIGINAL_RESPONSE', data)
             resolve(data)
         })
     },
     // get ocr bounding box image
-    setBoundingBoxImage({ commit, state}, data){
+    setBoundingBoxImage({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             commit('SET_BOUNDING_BOX_IMAGE', data)
             resolve(data)

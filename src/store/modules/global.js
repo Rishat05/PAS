@@ -1,4 +1,5 @@
 import { setUserInitialDate, setUserInitialStore, getUserInitialDate, getUserInitialStore, getSearchBy, setSearchedBy, setCustomerID, getCustomerID, removeCustomerID } from '@/utils/auth';
+import contractStore from '../../../public/contractStore.json'
 const state = {
     userSelections: {
         initial: {
@@ -9,13 +10,17 @@ const state = {
         customerId: getCustomerID(),
     },
     capturedImages: [],
-    ContractStores: [
-        { id: 1, name: '浜松町本店' },
-        { id: 2, name: 'GINZA店'},
-        { id: 3, name: '渋谷店'},
-        { id: 4, name: '新宿店' },
-        { id: 5, name: '全店舗' },
-    ]
+    // ContractStores: [
+    //     { id: 1, name: '浜松町本店' },
+    //     { id: 2, name: 'GINZA店' },
+    //     { id: 3, name: '渋谷店' },
+    //     { id: 4, name: '新宿店' },
+    //     { id: 5, name: '全店舗' },
+    //     { id: 6, name: '浜松町本店-1' },
+    //     { id: 7, name: 'GINZA店-2' },
+    //     { id: 8, name: '渋谷店-3' },
+    // ]
+    ContractStores: contractStore,
 }
 
 const mutations = {
@@ -23,7 +28,7 @@ const mutations = {
         state.userSelections.initial = userSelections
     },
     SET_CAPTURED_IMAGES: (state, image) => {
-        if (image.type === 'ocr'){
+        if (image.type === 'ocr') {
             state.capturedImages[0] = image;
         } else {
             state.capturedImages.push(image);

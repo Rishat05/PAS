@@ -1,14 +1,6 @@
 <template>
   <div class="camera-comp">
     
-<!-- open -->
-
-    <form @submit.prevent="handleSubmit" class="img-upload">
-      <input type="file" id="image" ref="myFiles" multiple>
-      <button>Submit</button>
-    </form>
-<!-- close -->
-
     <video
       v-show="!photo"
       class="video"
@@ -114,6 +106,7 @@ export default {
     },
     // capture image and send it to the OCR
     async TakePhoto() {
+      
       let video = this.$refs.video;
       this.canva = this.$refs.canva;
 
@@ -230,6 +223,8 @@ export default {
               self.getOCRResult(id);
             }, this.delayTime); // It will make requests every 100 milliseconds until the status reaches 1
           } else {
+            this.delayTime = 3000;
+            this.count = 0;
             let successResCome = new Date().getTime();
             let SuccessResTime = successResCome - this.getOcrStart;
             console.log("successResCome : " + successResCome +" ,SuccessResTime : " + SuccessResTime)
@@ -458,10 +453,7 @@ export default {
 </script>
 
 <style scoped>
-.img-upload{
-  margin-bottom: 40px;
-  z-index: 9999;
-}
+
 .camera-comp {
   width: 414px;
   height: 414px;

@@ -103,13 +103,59 @@
       >
         <p class="label">
           <span class="label-name">転送発送日</span>
-          <span class="flag">必須</span>
+          <!-- <span class="flag">必須</span> -->
         </p>
         <b-field>
           <b-datepicker v-model="register.TransferDate" locale="ja-JP" editable>
           </b-datepicker>
         </b-field>
       </div>
+      <!-- -------------------------start-------------- -->
+<div class="histories field-gap" v-if="!isLoading">
+  <div class="head">
+    <h2>登録履歴（最新{{ histories.length }}件）</h2>
+  </div>
+  <div class="body">
+    <div v-if="histories.length > 0">
+      <div v-for="(history, index) in histories" :key="index" class="history">
+        <p>
+          転送発送日:
+          {{ history.DateTransfer ? history.DateTransfer : "" }}
+        </p>
+        <p>
+          転送種類：{{
+          transfer_types.find((el) => el.id === history.TransferType)
+          ? transfer_types.find(
+          (el) => el.id === history.TransferType
+          ).name
+          : ""
+          }}
+        </p>
+        <p>
+          実費費用（転送）：{{
+          history.JippiTransfer ? history.JippiTransfer : "0"
+          }} 円
+        </p>
+      </div>
+    </div>
+    <div v-else>
+      <div class="history">
+        <p></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div :class="
+  register.label_check
+    ? 'selected address-label field-gap'
+    : 'address-label field-gap'
+">
+  <b-checkbox v-model="register.label_check" native-value="true">
+    <span>ラベル印刷</span>
+  </b-checkbox>
+</div>
+      <!------------------------------- close -------------------------->
       <div class="receipt-type transfer-type field-gap container-fluid">
         <p class="label">
           <span class="label-name">転送種類</span>
@@ -140,12 +186,12 @@
           </div>
         </div>
       </div>
-      <div class="traking_number field-gap container-fluid">
+      <!-- <div class="traking_number field-gap container-fluid">
         <p class="label"><span class="label-name">追跡番号</span></p>
         <b-field :label-position="labelPosition">
           <b-input v-model="register.t_number"></b-input>
         </b-field>
-      </div>
+      </div> -->
       <div class="actual-cost field-gap container-fluid">
         <p class="label">
           <span class="label-name">実費費用（転送）</span>
@@ -161,7 +207,7 @@
           </p>
         </b-field>
       </div>
-      <div class="histories field-gap" v-if="!isLoading">
+      <!-- <div class="histories field-gap" v-if="!isLoading">
         <div class="head">
           <h2>登録履歴（最新{{ histories.length }}件）</h2>
         </div>
@@ -198,8 +244,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div
+      </div> -->
+      <!-- <div
         :class="
           register.label_check
             ? 'selected address-label field-gap'
@@ -209,7 +255,7 @@
         <b-checkbox v-model="register.label_check" native-value="true">
           <span>ラベル印刷</span>
         </b-checkbox>
-      </div>
+      </div> -->
       <div class="packing-fee field-gap container-fluid">
         <p class="field-title">梱包代</p>
         <b-field>
@@ -248,6 +294,14 @@
           </p>
         </b-field>
       </div>
+      <!-- start -->
+      <div class="traking_number field-gap container-fluid">
+        <p class="label"><span class="label-name">追跡番号</span></p>
+        <b-field :label-position="labelPosition">
+          <b-input v-model="register.t_number"></b-input>
+        </b-field>
+      </div>
+      <!-- close -->
       <div class="mail-type field-gap container-fluid">
         <p class="label field-gap">備考（お客様に公開されます）</p>
         <div class="row mix-row">
@@ -308,8 +362,8 @@
               !register.TransferType ||
               register.Jippi === null ||
               register.JippiTransfer === null ||
-              register.ArriveDate === null ||
-              register.TransferDate === null
+              // register.TransferDate === null    //required transfer date avoid
+              register.ArriveDate === null   
             "
             @click="save"
             ><span class="btn-txt">登録する</span></b-button
@@ -502,6 +556,7 @@ export default {
         .then((response) => {
           this.isLoading = false;
           if (response.status_code === 200) {
+
             this.Azukarikin = response.balance.Azukarikin;
             this.histories = response.history;
             this.uketori = response.balance.uketori;
@@ -818,7 +873,7 @@ export default {
 .receipt-status {
   background: #f1f2f5;
   border-radius: 4px;
-  height: 61px;
+  height: 50px;
   display: flex;
   align-items: center;
   margin-left: 16px;
