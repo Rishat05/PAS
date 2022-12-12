@@ -4,9 +4,10 @@ import store from '@/store'
 import { getToken, getLastLoginSession } from '@/utils/auth'
 // create an axios instance
 const service = axios.create({
-    baseURL: "https://shiraser.com/postal-api/api/v1", // url = base url + request url
+    //baseURL: "https://shiraser.com/postal-api/api/v1", // url = base url + request url
     // withCredentials: true, // send cookies when cross-domain requests
     //timeout: 50000, // request timeout
+    baseURL: "http://127.0.0.1:8000/api/v1"
 })
 
 // request interceptor
@@ -18,14 +19,14 @@ service.interceptors.request.use(
             // ['X-Token'] is a custom headers key
             // please modify it according to the actual situation
             config.headers['Token'] = getToken(),
-            config.headers['Access-Control-Allow-Headers'] = '*',
-            config.headers['Access-Control-Allow-Origin'] = '*',
-            config.headers['Accept'] = 'application/json',
-            config.headers['Content-Type'] = 'application/json',
-            config.headers['Authorization'] = 'Bearer ' + getToken()
+                config.headers['Access-Control-Allow-Headers'] = '*',
+                config.headers['Access-Control-Allow-Origin'] = '*',
+                config.headers['Accept'] = 'application/json',
+                config.headers['Content-Type'] = 'application/json',
+                config.headers['Authorization'] = 'Bearer ' + getToken()
         }
         let today = new Date().toLocaleDateString('jp-JP');
-        if (getLastLoginSession() && today !== getLastLoginSession()){
+        if (getLastLoginSession() && today !== getLastLoginSession()) {
             store.dispatch('user/resetToken').then(() => {
                 store.dispatch('global/refreshGlobalStore');
                 store.dispatch('customer/refreshCustomerStore');
@@ -38,7 +39,7 @@ service.interceptors.request.use(
     },
     error => {
         // do something with request error
-        console.log( 'error', error) // for debug
+        console.log('error', error) // for debug
         return Promise.reject(error)
     }
 )
@@ -76,13 +77,13 @@ service.interceptors.response.use(
         }
     },
     async error => {
-        if(error.response.status === 401){
+        if (error.response.status === 401) {
             await store.dispatch('user/resetToken').then(() => {
                 store.dispatch('global/refreshGlobalStore');
                 store.dispatch('customer/refreshCustomerStore');
                 showToastMessage('ログアウトしました。再度ログインしてください。', "is-danger");
             })
-        } else if (error.response.status === 403){
+        } else if (error.response.status === 403) {
             showToastMessage(
                 "ユーザーIDとパスワードを入力してください。",
                 "is-danger"
@@ -90,7 +91,7 @@ service.interceptors.response.use(
         } else {
             showToastMessage(error.message, "is-danger");
         }
-        
+
         return Promise.reject(error)
     }
 )

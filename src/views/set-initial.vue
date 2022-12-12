@@ -103,6 +103,9 @@ export default {
 #set-initial-page {
   min-height: 100vh;
 }
+.initial-form{
+  margin-bottom: 100px;
+}
 
 .logo {
   padding-top: 56px;

@@ -603,12 +603,14 @@ export default {
         this.register.ArriveDate == null
       ) {
         showToastMessage("受取日を選択してください。", "is-danger");
-      } else if (
-        this.register.TransferDate == "Invalid Date" ||
-        this.register.TransferDate == null
-      ) {
-        showToastMessage("転送発送日を選択してください。", "is-danger");
-      } else if (!this.register.CustomerID) {
+      }
+      // else if (
+      //   this.register.TransferDate == "Invalid Date" ||
+      //   this.register.TransferDate == null
+      // ) {
+      //   showToastMessage("転送発送日を選択してください。", "is-danger");
+      // }
+      else if (!this.register.CustomerID) {
         this.$router.push("/");
         this.$store.dispatch("customer/refreshCustomerStore");
         this.$store.dispatch("global/refreshGlobalStore");
@@ -657,9 +659,12 @@ export default {
             this.register.label_check = 0;
           }
 
+         // console.log(this.register.DateTransfer);
+
           this.$store
             .dispatch("customer/registerNewDocument", this.register)
             .then((response) => {
+              //console.log(response);
               this.isLoading = false;
               if (response.status_code === 200) {
                 showToastMessage(response.message, "is-success");
