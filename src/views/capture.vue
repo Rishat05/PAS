@@ -72,7 +72,7 @@
             width="30px"
             alt="icon"
           />
-          <span>撮影する fff</span>
+          <span>撮影する</span>
         </b-button>
         <b-button
           v-if="showTextArea"
@@ -86,7 +86,7 @@
             src="../assets/icons/search.png"
             alt="icon"
           />
-          <span>検索する sss</span>
+          <span>検索する</span>
         </b-button>
       </div>
     </div>
